@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Typography, Paper, Box, Container, Divider } from '@mui/material';
 import { AlertTriangle } from 'lucide-react';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import './About.css';
 
 // Lazy-loaded Navbar component
@@ -109,6 +110,14 @@ const AboutPage: React.FC = () => {
             </Typography>
             <Typography variant="body1">
               Let's navigate the complex world of relationships together, with eyes wide open and hearts protected.
+            </Typography>
+          </Box>
+          <Box my={4}>
+            <Typography variant="h4" gutterBottom>
+              Privacy and Data Protection
+            </Typography>
+            <Typography variant="body1">
+              <Link to="/privacy-policy">Privacy Policy</Link>           
             </Typography>
           </Box>
         </Paper>

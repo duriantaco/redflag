@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { AlertTriangle, Frown, Smile, ThumbsUp } from 'lucide-react';
+import { AlertTriangle, Frown, Smile, ThumbsUp, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 import './RedFlagQuiz.css';
 import { Flags, SavedFlag } from '../components/types';
@@ -8,7 +8,6 @@ import { initialFlags } from '../components/initialFlags';
 // Lazy-loaded components
 const NavBar = lazy(() => import('../components/NavBar'));
 const SavedFlagsSidebar = lazy(() => import('../components/SavedFlagsSidebar'));
-const ScoreGuide = lazy(() => import('../components/ScoreGuide'));
 
 const RedFlagQuiz: React.FC = () => {
   const [flags, setFlags] = useState<Flags>(initialFlags);
@@ -22,6 +21,22 @@ const RedFlagQuiz: React.FC = () => {
     const saved = localStorage.getItem('savedFlags');
     return saved ? JSON.parse(saved) : [];
   });
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
+  };
 
   useEffect(() => {
     localStorage.setItem('savedFlags', JSON.stringify(savedFlags));
@@ -111,18 +126,28 @@ const RedFlagQuiz: React.FC = () => {
         <meta name="description" content="Analyze your relationship dynamics and identify potential red flags with our interactive quiz." />
         <meta name="keywords" content="relationship quiz, red flags, relationship dynamics, dating advice" />
         <link rel="canonical" href="https://yourapp.com/red-flag-quiz" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <Suspense fallback={<div>Loading...</div>}>
         <NavBar />
-        <ScoreGuide />
       </Suspense>
 
       <div className="app-container">
-        <div className="quiz-container">
+        {isMobile && (
+          <button 
+            className={`toggle-sidebar-button ${isSidebarOpen ? 'open' : ''}`} 
+            onClick={toggleSidebar}
+            aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+          >
+            {isSidebarOpen ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
+          </button>
+        )}
+        <div className={`quiz-container ${isSidebarOpen ? 'sidebar-open' : ''}`}>
           <h1 className="quiz-title">🚩 Relationship Dynamics Analyzer 🚩</h1>
           <p className="quiz-intro">
             Not sure if they're red flags || Did you get played? 
           </p>
+
           <div className="quiz-questions">
             {Object.entries(flags).map(([key, flag]) => (
               <div key={key} className="quiz-item">
@@ -161,9 +186,13 @@ const RedFlagQuiz: React.FC = () => {
           </div>
           {quizCompleted && (
             <div className="quiz-result">
-              {getResultEmoji()}
-              <h2>{getResultText()}</h2>
-              <p>Risk Level: {riskLevel}%</p>
+              <div className={`result-content ${isMobile ? 'mobile' : ''}`}>
+                {getResultEmoji()}
+                <div className="result-text">
+                  <h2>{getResultText()}</h2>
+                  <p>Risk Level: {riskLevel}%</p>
+                </div>
+              </div>
               <p className="disclaimer">
                 This quiz is not a diagnostic tool. For serious concerns, consider speaking with a relationship counselor.
               </p>
@@ -198,7 +227,14 @@ const RedFlagQuiz: React.FC = () => {
           </div>
         )}
         <Suspense fallback={<div>Loading...</div>}>
-          <SavedFlagsSidebar savedFlags={savedFlags} onFlagClick={handleSavedFlagClick} onDeleteFlag={handleDeleteFlag} />
+          <SavedFlagsSidebar 
+            savedFlags={savedFlags} 
+            onFlagClick={handleSavedFlagClick} 
+            onDeleteFlag={handleDeleteFlag}
+            isOpen={isSidebarOpen}
+            onClose={() => setIsSidebarOpen(false)}
+            isMobile={isMobile}
+          />
         </Suspense>
         {selectedSavedFlag && (
           <div className="modal">

@@ -1,5 +1,5 @@
 import React, { useState, ReactElement, lazy, Suspense } from 'react';
-import { Tabs, Tab, Box, Typography, Paper, Card, CardContent, Grid, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Tabs, Tab, Box, Typography, Paper, Card, CardContent, Grid, Accordion, AccordionSummary, AccordionDetails, useMediaQuery, useTheme } from '@mui/material';
 import { AlertTriangle, Frown, Smile, ThumbsUp, Heart, Shield, Brain, Zap, ArrowRight, ChevronDown, LucideIcon, Eye } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 import './AdvicePage.css';
@@ -45,6 +45,9 @@ interface AdviceData {
 const AdvicePage: React.FC = () => {
   const [value, setValue] = useState(0);
   const [expanded, setExpanded] = useState<string | false>(false);
+  const theme = useTheme();
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -186,9 +189,18 @@ const AdvicePage: React.FC = () => {
           aria-label="advice tabs"
           centered
           className="advice-tabs"
+          variant={isMobile ? "scrollable" : "standard"}
+          scrollButtons={isMobile ? "auto" : false}
+          allowScrollButtonsMobile
         >
           {adviceData.map((data, index) => (
-            <Tab key={index} label={data.range} icon={data.icon} iconPosition="start" />
+            <Tab 
+              key={index} 
+              label={isMobile ? data.range : `${data.range} ${data.title}`}
+              icon={data.icon} 
+              iconPosition="start"
+              className="advice-tab"
+            />
           ))}
         </Tabs>
         {adviceData.map((data, index) => (

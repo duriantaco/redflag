@@ -13,6 +13,7 @@ const ContactPage = lazy(() => import('./pages/Contact'));
 const GymRoutines = lazy(() => import('./components/GymRoutines'));
 const HIITRoutines = lazy(() => import('./components/HIITRoutines'));
 const RunningRoutines = lazy(() => import('./components/RunningRoutines'));
+const PrivacyPolicy = lazy(() => import('./components/Privacy'));
 
 // Error Boundary component
 class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean}> {
@@ -56,6 +57,7 @@ const App: React.FC = () => {
               <Route path="/gym-routines" element={<GymRoutines />} />
               <Route path="/hiit-routines" element={<HIITRoutines />} />
               <Route path="/running-routines" element={<RunningRoutines />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             </Routes>
           </Suspense>
         </ErrorBoundary>
