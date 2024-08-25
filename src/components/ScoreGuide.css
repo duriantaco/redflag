@@ -1,0 +1,62 @@
+.score-guide-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 16px 0;
+  }
+  
+  .score-chips {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 0 16px;
+  }
+  
+  .score-chip {
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  
+  .score-chip.high-risk {
+    background-color: #ffdddd;
+    color: black;
+  }
+  
+  .score-chip.moderate-risk {
+    background-color: #fff4e5;
+    color: black;
+  }
+  
+  .score-chip.some-risk {
+    background-color: #fffde5;
+    color: black;
+  }
+  
+  .score-chip.low-risk {
+    background-color: #e5ffdd;
+    color: black;
+  }
+  
+  @media (max-width: 600px) {
+    .score-chips {
+      width: max-content;
+    }
+  
+    .score-chip {
+      font-size: 12px;
+    }
+  }
+  
+  @media (min-width: 601px) {
+    .score-guide-container {
+      overflow-x: visible;
+    }
+  
+    .score-chips {
+      justify-content: center;
+    }
+  
+    .score-chip {
+      font-size: 16px;
+    }
+  }

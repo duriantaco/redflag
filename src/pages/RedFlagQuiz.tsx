@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import './RedFlagQuiz.css';
 import { Flags, SavedFlag } from '../components/types';
 import { initialFlags } from '../components/initialFlags';
+import ScoreGuide from '../components/ScoreGuide';
 
 // Lazy-loaded components
 const NavBar = lazy(() => import('../components/NavBar'));
@@ -76,23 +77,48 @@ const RedFlagQuiz: React.FC = () => {
   };
 
   const calculateScore = () => {
-    const { totalScore, maxPossibleScore } = Object.values(flags).reduce((acc, flag) => {
+    let totalFlags = 0;
+    let severityScore = 0;
+    const maxSeverityScore = Object.values(flags).reduce((acc, flag) => {
+      if (flag.type === 'simple') {
+        return acc + (flag.weightage ?? 0);
+      } else {
+        return acc + Math.max(...(flag.options?.map(option => option.weightage) ?? [0]));
+      }
+    }, 0);
+  
+    Object.values(flags).forEach(flag => {
       if (flag.isSelected) {
+        totalFlags++;
         if (flag.type === 'simple') {
-          acc.totalScore += flag.weightage || 0;
-        } else if (flag.selectedOption !== null) {
-          acc.totalScore += flag.options![flag.selectedOption].weightage;
+          severityScore += flag.weightage ?? 0;
+        } else if (flag.selectedOption !== null && flag.options) {
+          severityScore += flag.options[flag.selectedOption]?.weightage ?? 0;
         }
       }
-      if (flag.type === 'simple') {
-        acc.maxPossibleScore += flag.weightage || 0;
-      } else {
-        acc.maxPossibleScore += Math.max(...(flag.options?.map(option => option.weightage) || []));
-      }
-      return acc;
-    }, { totalScore: 0, maxPossibleScore: 0 });
-
-    const riskPercentage = (totalScore / maxPossibleScore) * 100;
+    });
+  
+    let riskPercentage = maxSeverityScore > 0 ? (severityScore / maxSeverityScore) * 100 : 0;
+  
+    // Adjust risk based on number of flags
+    if (totalFlags >= 3) {
+      riskPercentage += 10;
+    }
+    if (totalFlags >= 5) {
+      riskPercentage += 15;
+    }
+    if (totalFlags >= 7) {
+      riskPercentage += 20;
+    }
+  
+    // Ensure we don't exceed 100%
+    riskPercentage = Math.min(riskPercentage, 100);
+  
+    // Minimum risk levels based on number of flags
+    if (totalFlags >= 3 && riskPercentage < 30) riskPercentage = 30;
+    if (totalFlags >= 5 && riskPercentage < 50) riskPercentage = 50;
+    if (totalFlags >= 7 && riskPercentage < 80) riskPercentage = 80;
+  
     setRiskLevel(Math.round(riskPercentage));
     setQuizCompleted(true);
   };
@@ -130,6 +156,8 @@ const RedFlagQuiz: React.FC = () => {
       </Helmet>
       <Suspense fallback={<div>Loading...</div>}>
         <NavBar />
+        <ScoreGuide />
+
       </Suspense>
 
       <div className="app-container">
