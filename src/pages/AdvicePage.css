@@ -12,18 +12,70 @@
   font-size: 1.5rem;
 }
 
-.advice-tabs {
+.tabs-container {
+  position: relative;
+  display: flex;
+  align-items: center;
   margin-bottom: 1.5rem;
 }
 
+.tabs-wrapper {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scroll-behavior: smooth;
+}
+
+.tabs-wrapper::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
 .advice-tab {
-  min-height: 72px;
-  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 80px;
+  padding: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-bottom: 3px solid transparent;
+}
+
+.advice-tab.active {
+  border-bottom-color: #1976d2;
+  background-color: rgba(25, 118, 210, 0.08);
+}
+
+.advice-tab svg {
+  margin-bottom: 5px;
+}
+
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.scroll-button.left {
+  left: 0;
+}
+
+.scroll-button.right {
+  right: 0;
 }
 
 .advice-tabpanel {
   margin-top: 1.5rem;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding-right: 1rem;
 }
+
 
 .advice-section-title {
   margin-bottom: 1rem;

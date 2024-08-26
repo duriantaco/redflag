@@ -196,7 +196,7 @@ const AdvicePage: React.FC = () => {
           {adviceData.map((data, index) => (
             <Tab 
               key={index} 
-              label={isMobile ? data.range : `${data.range} ${data.title}`}
+              label={isMobile ? data.range : `${data.range}`}
               icon={data.icon} 
               iconPosition="start"
               className="advice-tab"

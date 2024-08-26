@@ -8,7 +8,7 @@ export const initialFlags: Flags = {
       options: [
         { text: "Occasionally shows affection", weightage: 5 },
         { text: "Frequently gives expensive gifts", weightage: 10 },
-        { text: "Constantly professes undying love", weightage: 15 }
+        { text: "Constantly professes undying love", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -17,9 +17,8 @@ export const initialFlags: Flags = {
       type: 'expandable',
       mainText: "Communication is unpredictable or hot-and-cold",
       options: [
-        { text: "Sometimes takes a while to respond", weightage: 5 },
         { text: "Often goes days without contact", weightage: 10 },
-        { text: "Alternates between oversharing and ghosting", weightage: 15 }
+        { text: "Alternates between oversharing and ghosting", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -36,7 +35,7 @@ export const initialFlags: Flags = {
       mainText: "Gaslighting you",
       options: [
         { text: "Blames you for feeling a certain way", weightage: 10 },
-        { text: "Insists you're imagining things", weightage: 15 }
+        { text: "Insists you're imagining things", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -46,7 +45,7 @@ export const initialFlags: Flags = {
       mainText: "Discourages you from spending time with friends and family",
       options: [
         { text: "Gets jealous when you're with others", weightage: 10 },
-        { text: "Demands all your attention and time", weightage: 15 }
+        { text: "Demands all your attention and time", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -56,7 +55,7 @@ export const initialFlags: Flags = {
       mainText: "Disregards your boundaries and personal space",
       options: [
         { text: "Pushes your boundaries without consent", weightage: 10 },
-        { text: "Becomes angry when you set limits", weightage: 15 }
+        { text: "Becomes angry when you set limits", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -66,7 +65,7 @@ export const initialFlags: Flags = {
       mainText: "Uses guilt, fear, or shame to control your actions",
       options: [
         { text: "Threatens to leave if you don't comply", weightage: 10 },
-        { text: "Blames you for their own behavior", weightage: 15 }
+        { text: "Blames you for their own behavior", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -76,7 +75,7 @@ export const initialFlags: Flags = {
       mainText: "Hides aspects of their life or relationship with you",
       options: [
         { text: "Avoids discussing their past or future", weightage: 10 },
-        { text: "Lies about their whereabouts or activities", weightage: 15 }
+        { text: "Lies about their whereabouts or activities", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -86,7 +85,7 @@ export const initialFlags: Flags = {
       mainText: "Relies on you for emotional support and validation",
       options: [
         { text: "Expects you to solve all their problems", weightage: 10 },
-        { text: "Threatens self-harm if you leave", weightage: 15 }
+        { text: "Threatens self-harm if you leave", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -96,7 +95,7 @@ export const initialFlags: Flags = {
       mainText: "Disrespects your opinions, boundaries, or autonomy",
       options: [
         { text: "Belittles your choices and values", weightage: 10 },
-        { text: "Controls your decisions and actions", weightage: 15 }
+        { text: "Controls your decisions and actions", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -106,7 +105,7 @@ export const initialFlags: Flags = {
       mainText: "Makes promises or commitments without following through",
       options: [
         { text: "Often cancels plans or changes their mind", weightage: 10 },
-        { text: "Makes grand plans but never acts on them", weightage: 15 }
+        { text: "Makes grand plans but never acts on them", weightage: 20 }
       ],
       selectedOption: null,
       isSelected: false,
@@ -139,9 +138,9 @@ export const initialFlags: Flags = {
       selectedOption: null,
       isSelected: false,
     },
-    hadManyPartners: {
+    narcissist: {
       type: 'simple',
-      mainText: "Had many partners in the past",
+      mainText: "Talks only about themselves and their achievements",
       weightage: 10,
       selectedOption: null,
       isSelected: false,

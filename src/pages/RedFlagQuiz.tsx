@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { AlertTriangle, Frown, Smile, ThumbsUp, ChevronRight, ChevronLeft } from 'lucide-react';
+import { AlertTriangle, Frown, Smile, ThumbsUp, ChevronRight, ChevronLeft, Share2 } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 import './RedFlagQuiz.css';
 import { Flags, SavedFlag } from '../components/types';
@@ -44,14 +44,36 @@ const RedFlagQuiz: React.FC = () => {
   }, [savedFlags]);
 
   const handleFlagClick = (key: string) => {
-    setFlags(prevFlags => ({
-      ...prevFlags,
-      [key]: {
-        ...prevFlags[key],
-        isSelected: !prevFlags[key].isSelected,
-        selectedOption: !prevFlags[key].isSelected ? null : prevFlags[key].selectedOption
-      }
-    }));
+    setFlags(prevFlags => {
+      const isSelected = !prevFlags[key].isSelected;
+      return {
+        ...prevFlags,
+        [key]: {
+          ...prevFlags[key],
+          isSelected,
+          selectedOption: isSelected && prevFlags[key].type === 'expandable' ? 0 : null
+        }
+      };
+    });
+  };
+  
+  const handleShare = () => {
+    const shareData = {
+      title: 'Relationship Dynamics Analyzer Result',
+      text: `I just completed the Red Flag Quiz and my risk level is ${riskLevel}%. ${getResultText()}`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).catch((error) => console.error('Error sharing', error));
+    } else {
+      // Fallback: Copy to clipboard or open a share modal
+      navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`).then(() => {
+        alert('Results copied to clipboard! Share them with your friends.');
+      }, (error) => {
+        console.error('Error copying to clipboard', error);
+      });
+    }
   };
 
   const handleOptionSelect = (flagKey: string, optionIndex: number) => {
@@ -104,21 +126,25 @@ const RedFlagQuiz: React.FC = () => {
     if (totalFlags >= 3) {
       riskPercentage += 10;
     }
-    if (totalFlags >= 5) {
-      riskPercentage += 15;
+    if (totalFlags >= 4) {
+      riskPercentage += 19;
     }
-    if (totalFlags >= 7) {
-      riskPercentage += 20;
+    if (totalFlags >= 5) {
+      riskPercentage += 25;
+    }
+    if (totalFlags >= 6) {
+      riskPercentage += 35;
     }
   
     // Ensure we don't exceed 100%
     riskPercentage = Math.min(riskPercentage, 100);
-  
+    
     // Minimum risk levels based on number of flags
     if (totalFlags >= 3 && riskPercentage < 30) riskPercentage = 30;
-    if (totalFlags >= 5 && riskPercentage < 50) riskPercentage = 50;
-    if (totalFlags >= 7 && riskPercentage < 80) riskPercentage = 80;
-  
+    if (totalFlags >= 4 && riskPercentage < 60) riskPercentage = 60;
+    if (totalFlags >= 5 && riskPercentage < 79) riskPercentage = 79;
+    if (totalFlags >= 6 && riskPercentage < 90) riskPercentage = 90;
+
     setRiskLevel(Math.round(riskPercentage));
     setQuizCompleted(true);
   };
@@ -224,6 +250,11 @@ const RedFlagQuiz: React.FC = () => {
               <p className="disclaimer">
                 This quiz is not a diagnostic tool. For serious concerns, consider speaking with a relationship counselor.
               </p>
+              <div className="share-container">
+                <button onClick={handleShare} className="share-button">
+                  <Share2 size={24} /> Share your results
+                </button>
+              </div>
             </div>
           )}
         </div>
