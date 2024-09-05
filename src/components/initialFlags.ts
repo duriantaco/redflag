@@ -23,6 +23,33 @@ export const initialFlags: Flags = {
       selectedOption: null,
       isSelected: false,
     },
+    talkingaboutexes: {
+      type: 'expandable',
+      mainText: "Frequently talks about their exes or past relationships",
+      options: [
+        { text: "Compares you to their exes", weightage: 10 },
+        { text: "Brings up exes in every conversation", weightage: 15 }
+      ],
+      selectedOption: null,
+      isSelected: false,
+    },
+    constantlyremindsyouofcompatibility: {
+      type: 'simple',
+      mainText: "Constantly reminds you of how incompatible you are",
+      weightage: 10,
+      selectedOption: null,
+      isSelected: false,
+    },
+    talkingaboutdates: {
+      type: 'expandable',
+      mainText: "Frequently talks about other dates or potential partners",
+      options: [
+        { text: "Mentions other dates in a casual manner", weightage: 10 },
+        { text: "Compares you to other potential partners", weightage: 15 }
+      ],
+      selectedOption: null,
+      isSelected: false,
+    },
     mixedSignals: {
       type: 'simple',
       mainText: "Gives mixed signals or sends confusing messages. Often sharing a lot about themselves, but not asking about you or does not reciprocate.",
